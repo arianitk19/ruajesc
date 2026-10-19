@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="sq" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Screenshot Organizer — Çdo screenshot, i organizuar. Gjeje menjëherë.</title>
+    <meta name="description" content="Organizo, kërko dhe ruaj screenshot-et direkt në shfletues. OCR në pajisje, koleksione, duplikate dhe kopje rezervë. Falas për të gjithë." />
+    <meta name="theme-color" content="#F7F7F5" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Screenshots" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icons/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="./icons/icon-192.png" sizes="192x192" type="image/png" />
+    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+    <script src="./theme-init.js"></script>
+  </head>
+  <body>
+    <div id="app" class="app">
+      <div class="flex min-h-dvh items-center justify-center" aria-busy="true">
+        <span class="brand__mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="sr-only">Duke u ngarkuar…</span>
+      </div>
+    </div>
+    <noscript>
+      <div class="mx-auto max-w-lg p-8 text-center">
+        <p class="font-semibold">Screenshot Organizer kërkon JavaScript.</p>
+        <p class="mt-2 text-sm">Screenshot Organizer needs JavaScript to run.</p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+{
+  "name": "screenshot-organizer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Screenshot Organizer — organize, search and back up screenshots, entirely in the browser. Free for everyone.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "postinstall": "node scripts/copy-ocr-assets.mjs",
+    "predev": "node scripts/copy-ocr-assets.mjs",
+    "dev": "vite",
+    "prebuild": "node scripts/copy-ocr-assets.mjs",
+    "build": "vite build",
+    "preview": "vite preview --port 4173",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:all": "npm run test && npm run build && npm run test:e2e",
+    "fixtures": "python3 scripts/make-fixtures.py"
+  },
+  "dependencies": {
+    "@fontsource-variable/plus-jakarta-sans": "^5.3.0",
+    "fflate": "^0.8.3",
+    "lucide": "^1.59.0",
+    "tesseract.js": "^7.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "@tesseract.js-data/eng": "^1.0.0",
+    "@tesseract.js-data/sqi": "^1.0.0",
+    "fake-indexeddb": "^6.2.6",
+    "jsdom": "^29.1.1",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.5"
+  }
+}
