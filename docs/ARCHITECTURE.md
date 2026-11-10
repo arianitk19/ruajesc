@@ -57,6 +57,7 @@ Exact duplicates are grouped by SHA-256. Similar images are pairs whose 64-bit p
 
 ## UI
 
+- **Design system** (`src/styles/themes.css` + `src/styles/ios.css`): Apple's iOS palette (grouped backgrounds, system colours, hairline separators), SF Pro on Apple devices with Inter as the fallback everywhere else, frosted navigation bars, a floating glass tab bar with a separate import button on phones, the "More" menu as an inset-grouped sheet, iOS switches and segmented controls, sheets with grabbers, spring animations and press feedback. Light and dark themes share the same tokens.
 - `router.js` is a small hash router (`#/library`, `#/s/:id`, …) with before/after hooks. Library routes open the database on demand.
 - `state.js` holds a tiny store with `subscribe`/`emit`. `libraryChanged()` notifies the open pages and navigation counts.
 - `lib/dom.js` provides `h(tag, props, ...children)`, which turns every string into a text node. `replace()` swaps children and skips `null`/`false`.

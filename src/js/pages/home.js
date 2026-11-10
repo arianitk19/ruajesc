@@ -56,16 +56,16 @@ export function render(ctx) {
         button(t('backup.exportFull'), { kind: 'secondary', size: 'sm', onClick: () => ctx.navigate('/backup') })) : null;
 
       const summary = [
-        { label: t('stats.total'), value: fmt(stats.total), href: '#/library' },
-        { label: t('stats.recent7'), value: fmt(stats.recent_7d), href: '#/recent' },
-        { label: t('stats.unorganized'), value: fmt(stats.unorganized), href: '#/uncollected' },
-        { label: t('stats.ocrDone'), value: fmt(stats.ocr.done), href: '#/ocr' },
+        { label: t('stats.total'), value: fmt(stats.total), href: '#/library', icon: 'images', tone: 'indigo' },
+        { label: t('stats.recent7'), value: fmt(stats.recent_7d), href: '#/recent', icon: 'clock', tone: 'orange' },
+        { label: t('stats.unorganized'), value: fmt(stats.unorganized), href: '#/uncollected', icon: 'folder', tone: 'cyan' },
+        { label: t('stats.ocrDone'), value: fmt(stats.ocr.done), href: '#/ocr', icon: 'scan-text', tone: 'green' },
       ];
       const smart = [
-        { href: '#/uncollected', icon: 'folder', title: t('views.uncollected'), text: t('views.uncollectedSub') },
-        { href: '#/ocr', icon: 'scan-text', title: t('views.withOcr'), text: t('views.withOcrSub') },
-        { href: '#/large', icon: 'hard-drive', title: t('views.large'), text: t('views.largeSub') },
-        { href: '#/duplicates', icon: 'layers', title: t('views.duplicates'),
+        { href: '#/uncollected', icon: 'folder', tone: 'cyan', title: t('views.uncollected'), text: t('views.uncollectedSub') },
+        { href: '#/ocr', icon: 'scan-text', tone: 'green', title: t('views.withOcr'), text: t('views.withOcrSub') },
+        { href: '#/large', icon: 'hard-drive', tone: 'orange', title: t('views.large'), text: t('views.largeSub') },
+        { href: '#/duplicates', icon: 'layers', tone: 'pink', title: t('views.duplicates'),
           text: stats.exact_duplicate_groups ? t('views.duplicatesFound', { count: stats.exact_duplicate_groups }) : t('views.duplicatesSub') },
       ];
 
@@ -77,7 +77,8 @@ export function render(ctx) {
           button(t('import.button'), { kind: 'primary', iconName: 'upload', onClick: () => openImport() })),
         reminder,
         h('ul', { class: 'summary-strip', role: 'list' },
-          summary.map((s) => h('li', null, h('a', { class: 'summary-item', href: s.href },
+          summary.map((s) => h('li', null, h('a', { class: `summary-item summary-item--${s.tone}`, href: s.href },
+            h('span', { class: `nav-icon nav-icon--${s.tone} summary-item__icon`, aria: { hidden: 'true' } }, icon(s.icon, { size: 16, strokeWidth: 2 })),
             h('span', { class: 'summary-item__value' }, s.value), h('span', { class: 'summary-item__label' }, s.label))))),
         recent.items.length ? h('section', { class: 'home-section', aria: { labelledby: 'home-recent' } },
           h('div', { class: 'section-head' }, h('h2', { id: 'home-recent', class: 'section-title' }, t('home.recentTitle')),
@@ -98,7 +99,7 @@ export function render(ctx) {
         h('section', { class: 'home-section', aria: { labelledby: 'home-smart' } },
           h('div', { class: 'section-head' }, h('h2', { id: 'home-smart', class: 'section-title' }, t('home.smartTitle'))),
           h('ul', { class: 'smart-grid', role: 'list' }, smart.map((s) => h('li', null,
-            h('a', { class: 'smart-card', href: s.href }, h('span', { class: 'smart-card__icon' }, icon(s.icon, { size: 18 })),
+            h('a', { class: 'smart-card', href: s.href }, h('span', { class: `smart-card__icon nav-icon nav-icon--${s.tone}` }, icon(s.icon, { size: 18, strokeWidth: 2 })),
               h('span', { class: 'smart-card__title' }, s.title), h('span', { class: 'smart-card__text' }, s.text)))))));
     } catch (error) {
       replace(el, errorState({ text: t(error?.i18nKey ?? 'errors.generic'), onRetry: load }));

@@ -42,14 +42,14 @@ export function render(ctx) {
       const lang = getLanguage();
       const n = (v) => formatNumber(v, lang);
       const cards = [
-        { label: t('stats.total'), value: n(stats.total) },
-        { label: t('stats.collections'), value: n(stats.collections) },
-        { label: t('stats.favorites'), value: n(stats.favorites) },
-        { label: t('stats.recent30'), value: n(stats.recent_30d) },
-        { label: t('stats.totalSize'), value: formatBytes(stats.original_bytes, lang) },
-        { label: t('stats.unorganized'), value: n(stats.unorganized) },
-        { label: t('stats.ocrCompletion'), value: formatPercent(stats.ocr.done, stats.total, lang) },
-        { label: t('stats.duplicateGroups'), value: n(stats.exact_duplicate_groups) },
+        { icon: 'images', tone: 'indigo', label: t('stats.total'), value: n(stats.total) },
+        { icon: 'folder', tone: 'cyan', label: t('stats.collections'), value: n(stats.collections) },
+        { icon: 'star', tone: 'yellow', label: t('stats.favorites'), value: n(stats.favorites) },
+        { icon: 'clock', tone: 'orange', label: t('stats.recent30'), value: n(stats.recent_30d) },
+        { icon: 'hard-drive', tone: 'gray', label: t('stats.totalSize'), value: formatBytes(stats.original_bytes, lang) },
+        { icon: 'circle-dashed', tone: 'purple', label: t('stats.unorganized'), value: n(stats.unorganized) },
+        { icon: 'scan-text', tone: 'green', label: t('stats.ocrCompletion'), value: formatPercent(stats.ocr.done, stats.total, lang) },
+        { icon: 'layers', tone: 'pink', label: t('stats.duplicateGroups'), value: n(stats.exact_duplicate_groups) },
       ];
       const months = [];
       const now = new Date();
@@ -69,7 +69,8 @@ export function render(ctx) {
 
       replace(body,
         h('ul', { class: 'stat-grid', role: 'list' }, cards.map((c) => h('li', { class: 'stat' },
-          h('span', { class: 'stat__value' }, c.value), h('span', { class: 'stat__label' }, c.label)))),
+          h('span', { class: 'stat__value' }, c.value), h('span', { class: 'stat__label' }, c.label),
+          h('span', { class: `nav-icon nav-icon--${c.tone} stat__icon`, aria: { hidden: 'true' } }, icon(c.icon, { size: 16, strokeWidth: 2 }))))),
         stats.total
           ? h('div', { class: 'chart-grid' },
             columnChart(months, { label: t('stats.importsByMonth'), format: n }),

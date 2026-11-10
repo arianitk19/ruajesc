@@ -1,7 +1,8 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/plus-jakarta-sans';
+@import '@fontsource-variable/inter';
 @import './themes.css';
 @import './components.css';
+@import './ios.css';
 
 /* Tailwind's dark: variant follows the app theme, not only the OS setting. */
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
@@ -38,13 +39,14 @@
     color: var(--ink);
     font-family: var(--font);
     font-size: 15px;
-    line-height: 1.5;
-    font-feature-settings: 'cv11', 'ss01';
+    line-height: 1.47;
+    letter-spacing: -0.01em;
+    font-feature-settings: 'cv11', 'ss03', 'case';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
-  h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.015em; line-height: 1.25; text-wrap: balance; }
+  h1, h2, h3, h4 { margin: 0; font-family: var(--font-display); font-weight: 700; letter-spacing: -0.022em; line-height: 1.2; text-wrap: balance; }
   p { margin: 0; }
   p, li, dd { text-wrap: pretty; }
   a { color: inherit; text-decoration: none; }

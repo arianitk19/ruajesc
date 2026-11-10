@@ -87,7 +87,7 @@ export function applyTheme(theme) {
   document.documentElement.dataset.theme = resolved;
   document.documentElement.style.colorScheme = resolved;
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute('content', resolved === 'dark' ? '#111315' : '#F7F7F5');
+  if (meta) meta.setAttribute('content', resolved === 'dark' ? '#000000' : '#F2F2F7');
   try { localStorage.setItem(THEME_KEY, theme); } catch { /* ignore */ }
   return resolved;
 }

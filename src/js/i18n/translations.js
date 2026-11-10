@@ -605,6 +605,14 @@ const sq = {
     lead: 'Screenshot Organizer lexon tekstin në screenshot-et e tua, i grupon sipas temës dhe të lejon t’i gjesh me një fjalë. Gjithçka ndodh në shfletuesin tënd. Falas, për të gjithë.',
     cta: 'Hap bibliotekën',
     freeNote: 'Pa llogari, pa abonim, pa reklama. Imazhet nuk largohen nga pajisja jote.',
+    eyebrow: 'Aplikacion falas · iPhone, Android dhe kompjuter',
+    install: {
+      title: 'Si aplikacion i vërtetë në iPhone',
+      text: 'Shtoje në ekranin kryesor dhe hapet në ekran të plotë, punon edhe pa internet — pa App Store.',
+      share: 'Hape në Safari dhe prek Ndaj',
+      add: 'Zgjidh “Shto në ekranin kryesor”',
+      open: 'Hape nga ikona, si çdo aplikacion',
+    },
     howTitle: 'Si funksionon',
     steps: {
       import: { title: 'Importo', text: 'Tërhiqi screenshot-et, zgjidhi ose ngjiti. Kopjet identike gjenden menjëherë.' },
@@ -1271,6 +1279,14 @@ const en = {
     lead: 'Screenshot Organizer reads the text in your screenshots, groups them by topic and lets you find any of them with one word. It all happens in your browser. Free, for everyone.',
     cta: 'Open the library',
     freeNote: 'No account, no subscription, no ads. Your images never leave your device.',
+    eyebrow: 'Free app · iPhone, Android and desktop',
+    install: {
+      title: 'A real app on your iPhone',
+      text: 'Add it to your Home Screen and it opens full screen and works offline — no App Store needed.',
+      share: 'Open it in Safari and tap Share',
+      add: 'Choose “Add to Home Screen”',
+      open: 'Launch it from the icon, like any app',
+    },
     howTitle: 'How it works',
     steps: {
       import: { title: 'Import', text: 'Drag, choose or paste your screenshots. Identical copies are caught immediately.' },

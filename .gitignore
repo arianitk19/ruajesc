@@ -1,0 +1,10 @@
+node_modules/
+dist/
+public/ocr/
+tests/fixtures/
+test-results/
+playwright-report/
+.vite/
+*.log
+.DS_Store
+Thumbs.db

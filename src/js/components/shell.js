@@ -16,27 +16,30 @@ import { kbd, modKey } from './ui.js';
 
 export const NAV = [
   { group: 'library', items: [
-    { id: 'home', path: '/home', icon: 'home', label: 'nav.home' },
-    { id: 'library', path: '/library', icon: 'images', label: 'nav.allScreenshots', count: (s) => s.total },
-    { id: 'recent', path: '/recent', icon: 'clock', label: 'nav.recent', count: (s) => s.recent_30d },
-    { id: 'favorites', path: '/favorites', icon: 'star', label: 'nav.favorites', count: (s) => s.favorites },
+    { id: 'home', path: '/home', icon: 'home', label: 'nav.home', tone: 'blue' },
+    { id: 'library', path: '/library', icon: 'images', label: 'nav.allScreenshots', tone: 'indigo', count: (s) => s.total },
+    { id: 'recent', path: '/recent', icon: 'clock', label: 'nav.recent', tone: 'orange', count: (s) => s.recent_30d },
+    { id: 'favorites', path: '/favorites', icon: 'star', label: 'nav.favorites', tone: 'yellow', count: (s) => s.favorites },
   ] },
   { group: 'organize', items: [
-    { id: 'collections', path: '/collections', icon: 'folder', label: 'nav.collections', count: (s) => s.collections },
-    { id: 'categories', path: '/categories', icon: 'sparkles', label: 'nav.categories' },
-    { id: 'duplicates', path: '/duplicates', icon: 'layers', label: 'nav.duplicates', count: (s) => s.exact_duplicate_groups || null },
-    { id: 'trash', path: '/trash', icon: 'trash', label: 'nav.trash', count: (s) => s.trashed || null },
+    { id: 'collections', path: '/collections', icon: 'folder', label: 'nav.collections', tone: 'cyan', count: (s) => s.collections },
+    { id: 'categories', path: '/categories', icon: 'sparkles', label: 'nav.categories', tone: 'purple' },
+    { id: 'duplicates', path: '/duplicates', icon: 'layers', label: 'nav.duplicates', tone: 'pink', count: (s) => s.exact_duplicate_groups || null },
+    { id: 'trash', path: '/trash', icon: 'trash', label: 'nav.trash', tone: 'gray', count: (s) => s.trashed || null },
   ] },
   { group: 'insight', items: [
-    { id: 'stats', path: '/stats', icon: 'bar-chart', label: 'nav.statistics' },
-    { id: 'backup', path: '/backup', icon: 'archive', label: 'nav.backup' },
+    { id: 'stats', path: '/stats', icon: 'bar-chart', label: 'nav.statistics', tone: 'green' },
+    { id: 'backup', path: '/backup', icon: 'archive', label: 'nav.backup', tone: 'teal' },
   ] },
 ];
 
 const ACTIVE_ALIASES = {
   collection: 'collections', category: 'categories', tag: 'collections', uncollected: 'library', ocr: 'library',
-  large: 'library', search: 'library',
+  large: 'library',
 };
+
+/** iOS Settings-style coloured icon tile. */
+const navIcon = (name, tone = 'gray') => h('span', { class: `nav-icon nav-icon--${tone}`, aria: { hidden: 'true' } }, icon(name, { size: 16, strokeWidth: 2 }));
 
 const themeIcon = () => (state.theme === 'dark' ? 'moon' : state.theme === 'light' ? 'sun' : 'monitor');
 
@@ -55,7 +58,8 @@ export function mountShell(root, hooks) {
       const count = h('span', { class: 'nav-item__count' });
       countEls.set(it.id, count);
       const link = h('a', { class: 'nav-item', href: `#${it.path}`, dataset: { nav: it.id } },
-        icon(it.icon, { size: 18 }), h('span', { class: 'nav-item__label' }, t(it.label)), count);
+        navIcon(it.icon, it.tone), h('span', { class: 'nav-item__label' }, t(it.label)), count,
+        icon('chevron-right', { size: 16, className: 'nav-item__chevron' }));
       navLinks.set(it.id, link);
       return h('li', null, link);
     }))));
@@ -63,12 +67,14 @@ export function mountShell(root, hooks) {
   const storageEl = h('a', { class: 'storage-indicator', href: '#/settings?section=storage' });
   const collapseBtn = h('button', { type: 'button', class: 'btn btn--quiet btn--icon sidebar__collapse', aria: { label: t('nav.collapse') },
     onClick: () => { updateSettings({ sidebarCollapsed: !getSettings().sidebarCollapsed }); applyCollapse(); } }, icon('panel-left-close'));
-  const bottomLinks = [['settings', '/settings', 'settings', 'nav.settings'], ['help', '/help', 'help', 'nav.help']].map(([id, path, ic, label]) => {
-    const a = h('a', { class: 'nav-item', href: `#${path}`, dataset: { nav: id } }, icon(ic, { size: 18 }), h('span', { class: 'nav-item__label' }, t(label)));
+  const bottomLinks = [['settings', '/settings', 'settings', 'nav.settings', 'gray'], ['help', '/help', 'help', 'nav.help', 'blue']].map(([id, path, ic, label, tone]) => {
+    const a = h('a', { class: 'nav-item', href: `#${path}`, dataset: { nav: id } }, navIcon(ic, tone), h('span', { class: 'nav-item__label' }, t(label)),
+      icon('chevron-right', { size: 16, className: 'nav-item__chevron' }));
     navLinks.set(id, a);
     return a;
   });
   const sidebar = h('aside', { class: 'sidebar', id: 'sidebar', aria: { label: t('nav.main') } },
+    h('span', { class: 'sidebar__grabber', aria: { hidden: 'true' } }),
     h('div', { class: 'sidebar__top' },
       h('a', { class: 'brand', href: '#/home', aria: { label: t('app.name') } },
         h('span', { class: 'brand__mark', aria: { hidden: 'true' } }, h('span'), h('span'), h('span')),
@@ -253,11 +259,12 @@ export function mountShell(root, hooks) {
 
   // --- Mobile bottom nav and drawer ------------------------------------------------------
   const bottomNav = h('nav', { class: 'bottom-nav', aria: { label: t('nav.mobile') } },
-    [['home', '/home', 'home', 'nav.home'], ['library', '/library', 'images', 'nav.gallery'], ['collections', '/collections', 'folder', 'nav.collections']].map(([id, path, ic, label]) =>
-      h('a', { class: 'bottom-nav__item', href: `#${path}`, dataset: { nav: id } }, icon(ic, { size: 20 }), h('span', null, t(label)))),
-    h('button', { type: 'button', class: 'bottom-nav__item', onClick: () => { hooks.navigate('/search'); setTimeout(() => searchInput.focus(), 50); } }, icon('search', { size: 20 }), h('span', null, t('nav.search'))),
-    h('button', { type: 'button', class: 'bottom-nav__item', aria: { controls: 'sidebar' }, onClick: () => toggleDrawer(true) }, icon('more', { size: 20 }), h('span', null, t('nav.more'))));
-  const fab = h('button', { type: 'button', class: 'fab', aria: { label: t('import.button') }, onClick: () => hooks.openImport() }, icon('plus', { size: 24 }));
+    h('div', { class: 'bottom-nav__pill' },
+      [['home', '/home', 'home', 'nav.home'], ['library', '/library', 'images', 'nav.gallery'], ['collections', '/collections', 'folder', 'nav.collections']].map(([id, path, ic, label]) =>
+        h('a', { class: 'bottom-nav__item', href: `#${path}`, dataset: { nav: id } }, icon(ic, { size: 22 }), h('span', null, t(label)))),
+      h('button', { type: 'button', class: 'bottom-nav__item', dataset: { nav: 'search' }, onClick: () => { hooks.navigate('/search'); setTimeout(() => searchInput.focus(), 50); } }, icon('search', { size: 22 }), h('span', null, t('nav.search'))),
+      h('button', { type: 'button', class: 'bottom-nav__item', aria: { controls: 'sidebar' }, onClick: () => toggleDrawer(true) }, icon('more', { size: 22 }), h('span', null, t('nav.more')))));
+  const fab = h('button', { type: 'button', class: 'fab', aria: { label: t('import.button') }, onClick: () => hooks.openImport() }, icon('plus', { size: 26, strokeWidth: 2.25 }));
   const scrim = h('div', { class: 'drawer-scrim', hidden: true, onClick: () => toggleDrawer(false) });
 
   function toggleDrawer(open) {
@@ -275,6 +282,11 @@ export function mountShell(root, hooks) {
   }
   sidebar.addEventListener('click', (e) => { if (e.target.closest('a')) toggleDrawer(false); });
   sidebar.addEventListener('keydown', (e) => { if (e.key === 'Escape' && root.classList.contains('drawer-open')) toggleDrawer(false); });
+
+  // Large-title behaviour: the bars turn into frosted glass once content scrolls under them.
+  const onScroll = () => root.classList.toggle('is-scrolled', window.scrollY > 6);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
   const skip = h('a', { class: 'skip-link', href: '#main', onClick: (e) => { e.preventDefault(); main.focus(); } }, t('nav.skipToContent'));
   replace(root, skip, sidebar, scrim, h('div', { class: 'app__column' }, topbar, main), inspector, bottomNav, fab, selectionBar);
@@ -345,6 +357,6 @@ export function mountShell(root, hooks) {
     showInspector,
     hideInspector,
     focusSearch: () => { searchInput.focus(); searchInput.select(); },
-    destroy: () => { offs.forEach((off) => off()); inspectorPanel?.destroy(); },
+    destroy: () => { offs.forEach((off) => off()); inspectorPanel?.destroy(); window.removeEventListener('scroll', onScroll); },
   };
 }
